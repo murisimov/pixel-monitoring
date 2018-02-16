@@ -35,4 +35,5 @@
 ---
 ##### Installation
   - `sudo apt-get -y install build-essential mpg321 xdg-utils`
-  - `pip install -r requirements.txt`
+  - Install right into system (not recommended): `pip install -r requirements.txt`
+  - Install into virtualenv: `bash install.sh 3.5 ~/.envs`, where `3.5` and `~/.envs` are python version and virtualenvs directory. These are default values and args are optional

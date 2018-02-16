@@ -8,5 +8,5 @@ def speak(text):
     assert isinstance(text, str)
 
     f = transform(text)
-    sub(['mpg321', f])
+    sub(['mpg321', '-g', '100', f])
     sub(['rm', '-f', f])

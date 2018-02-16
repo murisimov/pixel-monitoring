@@ -20,6 +20,14 @@ except Exception as e:
     print(e)
     sys.exit(1)
 
+deviation = 0
+try:
+    deviation = int(sys.argv[3])
+    assert deviation < 256
+except:
+    pass
+
+
 screen = Display().screen().root
 
 
@@ -49,18 +57,18 @@ def get_window_by_name(window, content):
 
 watchable = get_window_by_name(screen, name)
 
-color = (0, 0, 0)
+target_color = (0, 0, 0)
 x = 0
 y = 0
-input("press enter when cursor is at the new signature position")
-while not is_target(color):
+input("press enter when mouse cursor is at the target color")
+while True:
     coordinates = watchable.query_pointer()._data
     x = coordinates['win_x']
     y = coordinates['win_y']
-    color = get_pixel_color(watchable, x, y)
-    if not is_target(color):
-        print(color)
-        input("wrong position, try again")
+    target_color = get_pixel_color(watchable, x, y)
+    answer = input("target the RGB is %s, right? (y/n)" % str(target_color))
+    if answer is "y":
+        break
 
 
 print("watching X:%s Y:%s" % (x, y))
@@ -68,10 +76,10 @@ print("watching X:%s Y:%s" % (x, y))
 try:
     while True:
         current_color = get_pixel_color(watchable, x, y)
-        if is_target(current_color):
+        if is_target(target_color, current_color, deviation):
             speak(alert)
-            input("pixel color changed")
+            input("target color reached")
         sleep(1)
 except (KeyboardInterrupt, SystemExit):
-    print("bye")
+    print("\nbye")
 
